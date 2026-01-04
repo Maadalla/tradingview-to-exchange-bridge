@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Universal Bridge</title>
+    <style>
+        :root {
+            --bg: #0b0e11;
+            --card: #181a20;
+            --text: #eaecef;
+            --muted: #848e9c;
+            --primary: #FCD535;
+            --success: #0ECB81;
+            --border: #2b3139;
+            --input-bg: #2B3139;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            width: 360px;
+            margin: 0;
+            padding: 20px;
+            font-size: 13px;
+        }
+
+        /* HEADER */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 16px;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* CARDS */
+        .exchange-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .exchange-header {
+            padding: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            background: #1e2329;
+        }
+
+        .exchange-header:hover {
+            background: #262a30;
+        }
+
+        .exchange-name {
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #444;
+            transition: 0.3s;
+        }
+
+        .status-dot.active {
+            background: var(--success);
+            box-shadow: 0 0 5px var(--success);
+        }
+
+        .exchange-body {
+            padding: 15px;
+            border-top: 1px solid var(--border);
+            display: none;
+        }
+
+        .exchange-body.open {
+            display: block;
+        }
+
+        /* TOGGLE SWITCH */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 34px;
+            height: 18px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #444;
+            border-radius: 34px;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 14px;
+            width: 14px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            border-radius: 50%;
+            transition: .4s;
+        }
+
+        input:checked+.slider {
+            background-color: var(--primary);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(16px);
+        }
+
+        /* INPUTS */
+        label {
+            display: block;
+            color: var(--muted);
+            margin-bottom: 5px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            background: var(--input-bg);
+            border: 1px solid #2b3139;
+            color: var(--text);
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--primary);
+        }
+
+        /* SEGMENTED CONTROL */
+        .segmented-control {
+            display: flex;
+            background: var(--input-bg);
+            padding: 4px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        .segment-option {
+            flex: 1;
+            position: relative;
+        }
+
+        .segment-option input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .segment-btn {
+            display: block;
+            text-align: center;
+            padding: 8px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--muted);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .segment-option input:checked+.segment-btn {
+            background: #474D57;
+            color: var(--primary);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        /* INPUT ICON */
+        .input-group {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+            font-weight: bold;
+        }
+
+        .input-with-icon {
+            padding-left: 30px !important;
+            margin-bottom: 0;
+        }
+
+        /* FOOTER */
+        .global-settings {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-save {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
+            color: #000;
+            border: none;
+            border-radius: 4px;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin-top: 15px;
+        }
+
+        .btn-save:hover {
+            opacity: 0.9;
+        }
+
+        .hint {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h2>Universal Bridge</h2>
+        <span style="font-size:10px; color:#555;">v2.0</span>
+    </div>
+
+    <div class="exchange-card">
+        <div class="exchange-header" id="head-binance">
+            <div class="exchange-name">
+                <div class="status-dot" id="dot-binance"></div> Binance Futures
+            </div>
+            <label class="switch" onclick="event.stopPropagation()">
+                <input type="checkbox" id="toggle-binance"><span class="slider"></span>
+            </label>
+        </div>
+        <div class="exchange-body" id="body-binance">
+            <label>Environment</label>
+            <select id="binance-env">
+                <option value="https://testnet.binancefuture.com">Testnet (Fake Money)</option>
+                <option value="https://fapi.binance.com">Real Money</option>
+            </select>
+            <label>API Key</label>
+            <input type="password" id="binance-key" placeholder="Paste Key">
+            <label>Secret Key</label>
+            <input type="password" id="binance-secret" placeholder="Paste Secret">
+        </div>
+    </div>
+
+    <div class="exchange-card">
+        <div class="exchange-header" id="head-bybit">
+            <div class="exchange-name">
+                <div class="status-dot" id="dot-bybit"></div> Bybit V5
+            </div>
+            <label class="switch" onclick="event.stopPropagation()">
+                <input type="checkbox" id="toggle-bybit"><span class="slider"></span>
+            </label>
+        </div>
+        <div class="exchange-body" id="body-bybit">
+            <label>Environment</label>
+            <select id="bybit-env">
+                <option value="https://api-demo.bybit.com">Testnet (Fake Money)</option>
+                <option value="https://api.bybit.com">Real Money</option>
+            </select>
+            <label>API Key</label>
+            <input type="password" id="bybit-key" placeholder="Paste Key">
+            <label>Secret Key</label>
+            <input type="password" id="bybit-secret" placeholder="Paste Secret">
+        </div>
+    </div>
+
+    <div class="global-settings">
+        <label>💰 Position Sizing</label>
+        <div class="segmented-control">
+            <label class="segment-option">
+                <input type="radio" name="sizing" value="fixed" checked><span class="segment-btn">Fixed Amount</span>
+            </label>
+            <label class="segment-option">
+                <input type="radio" name="sizing" value="percent"><span class="segment-btn">% Balance</span>
+            </label>
+        </div>
+        <div class="input-group">
+            <span id="sizing-icon" class="input-icon">$</span>
+            <input type="number" id="sizing-value" class="input-with-icon" placeholder="100" min="0" step="0.01">
+        </div>
+
+        <label>⚡ Leverage Cap (1x - 100x)</label>
+        <div class="input-group">
+            <span class="input-icon">x</span>
+            <input type="number" id="leverage" class="input-with-icon" value="20" min="1" max="100">
+        </div>
+        <div class="hint">We auto-lower this if the coin's max leverage is lower.</div>
+    </div>
+
+    <button class="btn-save" id="btn-save">Save Configuration</button>
+    <div id="status" style="text-align:center; color:var(--success); margin-top:10px; display:none;">Saved!</div>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>

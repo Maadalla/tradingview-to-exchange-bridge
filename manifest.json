@@ -1,0 +1,47 @@
+{
+    "manifest_version": 3,
+    "name": "Universal Trade Bridge",
+    "version": "2.0",
+    "description": "Multi-Exchange Bridge for TradingView",
+    "permissions": [
+        "storage",
+        "activeTab",
+        "scripting",
+        "notifications"
+    ],
+    "host_permissions": [
+        "https://*.tradingview.com/*",
+        "https://testnet.binancefuture.com/*",
+        "https://fapi.binance.com/*",
+        "https://demo-sfapi.binance.com/*",
+        "https://api.bybit.com/*",
+        "https://api-demo.bybit.com/*"
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "injected.js"
+            ],
+            "matches": [
+                "https://*.tradingview.com/*"
+            ]
+        }
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://*.tradingview.com/*"
+            ],
+            "js": [
+                "content.js"
+            ],
+            "run_at": "document_start"
+        }
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_popup": "popup.html"
+    }
+}
